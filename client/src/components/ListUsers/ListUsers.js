@@ -3,74 +3,69 @@ import AddUserForm from '../../forms/AddUser'
 import EditUserForm from '../../forms/EditUser'
 import UserTable from '../../tables/User'
 
-const App = () => {
-  // Data
-  const usersData = [
-    { id: 1, name: 'Tania', username: 'floppydiskette' },
-    { id: 2, name: 'Craig', username: 'siliconeidolon' },
-    { id: 3, name: 'Ben', username: 'benisphere' },
-  ]
+import api from '../../services/api'
 
-  const initialFormState = { id: null, name: '', username: '' }
+class ListUsers extends React.Component {
+    state = {
+        users: [],
+        editing: false,
+        currentUser: { id: null, name: '', username: '' },
+    }
+    // Data
+    // const usersData = [
+    //     { id: 1, name: 'Tania', username: 'floppydiskette' },
+    //     { id: 2, name: 'Craig', username: 'siliconeidolon' },
+    //     { id: 3, name: 'Ben', username: 'benisphere' },
+    // ]
 
-  // Setting state
-  const [ users, setUsers ] = useState(usersData)
-  const [ currentUser, setCurrentUser ] = useState(initialFormState)
-  const [ editing, setEditing ] = useState(false)
+    componentDidMount() {
+        this.getUsers()
+    }
 
-  // CRUD operations
-  const addUser = user => {
-    user.id = users.length + 1
-    setUsers([ ...users, user ])
-  }
+    getUsers = async () => {
+        try {
+            const response = await api.get('users', {})
 
-  const deleteUser = id => {
-    setEditing(false)
+            if (response.data && response.data.length) {
+                this.setState({ users: response.data })
+                return
+            }
+        } catch (err) {
+            console.log('ocorreu um erro')
+        }
+    }
 
-    setUsers(users.filter(user => user.id !== id))
-  }
+    // CRUD operations
+    addUser = (user) => {}
 
-  const updateUser = (id, updatedUser) => {
-    setEditing(false)
+    deleteUser = (id) => {}
 
-    setUsers(users.map(user => (user.id === id ? updatedUser : user)))
-  }
+    updateUser = (id, updatedUser) => {}
 
-  const editRow = user => {
-    setEditing(true)
+    editRow = (user) => {
+        this.setState({ editing: true })
+        this.setState({ currentUser: user })
+    }
 
-    setCurrentUser({ id: user.id, name: user.name, username: user.username })
-  }
-
-  return (
-    <div className="container">
-      <h1>Lista de usuários</h1>
-      <div className="flex-row">
-        <div className="flex-large">
-          {editing ? (
-            <Fragment>
-              <h2>Edit user</h2>
-              <EditUserForm
-                editing={editing}
-                setEditing={setEditing}
-                currentUser={currentUser}
-                updateUser={updateUser}
-              />
-            </Fragment>
-          ) : (
-            <Fragment>
-              <h2>Criar usuário</h2>
-              <AddUserForm addUser={addUser} />
-            </Fragment>
-          )}
-        </div>
-        <div className="flex-large">
-          <h2>View users</h2>
-          <UserTable users={users} editRow={editRow} deleteUser={deleteUser} />
-        </div>
-      </div>
-    </div>
-  )
+    render() {
+        return (
+            <div className="container">
+                <h1>Lista de usuários</h1>
+                <div className="flex-row">
+                    <div className="flex-large">
+                        {this.state.users.map((user, index) => (
+                            <EditUserForm
+                                key={index}
+                                user={user}
+                                editUser={''}
+                                currentUser={user}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
+        )
+    }
 }
 
-export default App
+export default ListUsers

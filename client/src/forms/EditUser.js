@@ -1,40 +1,49 @@
 import React, { useState, useEffect } from 'react'
 
-const EditUser = props => {
-  const [ user, setUser ] = useState(props.currentUser)
+import api from '../services/api'
 
-  useEffect(
-    () => {
-      setUser(props.currentUser)
-    },
-    [ props ]
-  )
-  // You can tell React to skip applying an effect if certain values haven’t changed between re-renders. [ props ]
+const EditUser = (props) => {
+    const [user, setUser] = useState(props.currentUser)
 
-  const handleInputChange = event => {
-    const { name, value } = event.target
+    useEffect(() => {
+        setUser(props.currentUser)
+    }, [props])
+    // You can tell React to skip applying an effect if certain values haven’t changed between re-renders. [ props ]
 
-    setUser({ ...user, [name]: value })
-  }
+    const handleInputChange = (event) => {
+        const { name, value } = event.target
 
-  return (
-    <form
-      onSubmit={event => {
-        event.preventDefault()
+        setUser({ ...user, [name]: value })
+    }
 
-        props.updateUser(user.id, user)
-      }}
-    >
-      <label>Nome</label>
-      <input type="text" name="name" value={user.name} onChange={handleInputChange} />
-      <label>Login</label>
-      <input type="text" name="username" value={user.username} onChange={handleInputChange} />
-      <button>Update user</button>
-      <button onClick={() => props.setEditing(false)} className="button muted-button">
-        Cancel
-      </button>
-    </form>
-  )
+    const handleSubmit = async (id) => {
+        try {
+            const response = await api.put('user', {
+                id: 2,
+                name: 'Luis Fernando',
+            })
+
+            if (response) {
+            }
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
+    return (
+        <form>
+            <label>Nome</label>
+            <input
+                type="text"
+                name="name"
+                value={user.name}
+                onChange={handleInputChange}
+            />
+            <button onClick={() => handleSubmit(user.id)}>
+                Atualizar usuário
+            </button>
+        </form>
+    )
 }
 
 export default EditUser

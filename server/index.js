@@ -26,7 +26,7 @@ app.listen(process.env.REACT_APP_SERVER_PORT, () => {
 });
 
 app.get("/dashboard", verifyJWT, (req, res, next) => {
-  pool.query(`select count(id) from users`, (err, results) => {
+  pool.query(`select count(id) as num_usuarios from users`, (err, results) => {
     if (err) {
       return res.send(err);
     } else {
@@ -38,7 +38,7 @@ app.get("/dashboard", verifyJWT, (req, res, next) => {
 app.get("/users", (req, res) => {
   const { table } = req.query;
 
-  pool.query(`select * from users`, (err, results) => {
+  pool.query(`select id, name,login from users`, (err, results) => {
     if (err) {
       return res.send(err);
     } else {
@@ -73,6 +73,28 @@ app.post("/user", (req, res) => {
   );
 });
 
+app.put("/user", verifyJWT, (req, res) => {
+  console.log("chegou!");
+  if (!req.body) {
+    res.status(400).send({
+      message: "Content can not be empty!",
+    });
+  }
+  console.log("entrou aqui");
+  const { id, name } = req.body;
+  console.log(name);
+  pool.query(
+    `update users set name='${name}' where id = ${id}`,
+    (err, results) => {
+      if (err) {
+        return res.send(err);
+      } else {
+        return res.send(results);
+      }
+    }
+  );
+});
+
 app.post("/login", (req, res) => {
   if (!req.body) {
     res.status(400).send({
@@ -82,6 +104,8 @@ app.post("/login", (req, res) => {
 
   const { login, password } = req.body;
 
+  console.log("opa!" + login);
+
   pool.query(
     `select * from users where login = '${login}' limit 1`,
     (err, results) => {
@@ -90,21 +114,35 @@ app.post("/login", (req, res) => {
       } else {
         if (results.length) {
           const bcrypt = require("bcrypt");
-          const salt = bcrypt.genSaltSync(10);
 
-          if (bcrypt.compare(password, results[0].password)) {
-            const id = results.id;
-            const token = jwt.sign({ id }, process.env.SECRET, {
-              expiresIn: 3600, // expires in 15min
-            });
+          console.log(password);
+          console.log(results[0].password);
 
-            return res.json({ auth: true, token: token });
-          }
+          bcrypt.compare(password, results[0].password, function (err, result) {
+            console.log("entrou ");
+            if (result) {
+              console.log("autorized");
+              const id = results.id;
+              const token = jwt.sign({ id }, process.env.SECRET, {
+                expiresIn: 3600, // expires in 15min
+              });
+
+              return res.json({
+                auth: true,
+                token: token,
+                name: results[0].name,
+              });
+            }
+
+            console.log("not authorized!");
+            res.status(500).json({ message: "Login inválido!" });
+          });
+        } else {
+          console.log("not found!!");
+          res.status(404).send({
+            message: `Not found User`,
+          });
         }
-
-        res.status(404).send({
-          message: `Not found User`,
-        });
       }
     }
   );

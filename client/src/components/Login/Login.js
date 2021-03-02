@@ -11,13 +11,16 @@ import InputGroup from 'react-bootstrap/InputGroup'
 import FormControl from 'react-bootstrap/FormControl'
 import Col from 'react-bootstrap/Col'
 import Card from 'react-bootstrap/Card'
+import Alert from 'react-bootstrap/Alert'
 
 const Login = (props) => {
     const initialFormState = { login: '', password: '' }
     const [user, setUser] = useState(initialFormState)
+    const [error, setError] = useState(null)
 
     const handleInputChange = (event) => {
         const { name, value } = event.target
+        setError(false)
 
         setUser({ ...user, [name]: value })
     }
@@ -31,14 +34,17 @@ const Login = (props) => {
                 password: user.password,
             })
 
+            console.log('epa')
+
             setUser(initialFormState)
 
             if (response.status === 200) {
                 // logou com sucesso
-                login(response.data.token)
+                login(response.data.token, response.data.name)
                 window.location = '/dashboard'
             }
         } catch (err) {
+            setError(true)
             console.log('ocorreu um erro ao submeter as informações')
         }
     }
@@ -95,6 +101,15 @@ const Login = (props) => {
                             </Col>
                         </Form.Row>
                     </Form>
+                    <Row className="justify-content-center">
+                        {error ? (
+                            <Alert variant="danger">
+                                Erro ao tentar logar!
+                            </Alert>
+                        ) : (
+                            <>&nbsp;</>
+                        )}
+                    </Row>
                 </Card.Text>
             </Card.Body>
         </Card>

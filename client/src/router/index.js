@@ -6,7 +6,7 @@ import { Switch, Route, Link } from 'react-router-dom'
 // navigation guard / middleware
 import { PrivateRoute } from './_private'
 import { GuestRoute } from './_guest'
-import { isAuthenticated } from '../services/auth'
+import { isAuthenticated, getName } from '../services/auth'
 
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
@@ -63,7 +63,7 @@ const routes = [
     {
         path: '/logout',
         component: 'Logout',
-        showMenu: true,
+        showMenu: false,
         label: 'Logout',
         private: true,
     },
@@ -98,6 +98,14 @@ const router = () => (
                     })}
                 </Nav>
             </Navbar.Collapse>
+            {isAuthenticated() && (
+                <>
+                    <span className="mr-4">
+                        Bem vindo: <b>{getName()}</b>
+                    </span>
+                    <Link to="/logout">Sair</Link>
+                </>
+            )}
         </Navbar>
         <Container className="mt-5">
             <div className="text-center">
