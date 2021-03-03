@@ -50,15 +50,15 @@ const Login = (props) => {
     }
 
     return (
-        <Card className="col-md-10 ">
+        <Card>
             <Card.Body>
                 <Card.Title className="mb-4">
                     <h2>Login</h2>
                 </Card.Title>
-                <Card.Text>
+                <Card.Text md={10}>
                     <Form onSubmit={handleSubmit}>
                         <Form.Row className="justify-content-center">
-                            <Col xs="auto">
+                            <Col md={3}>
                                 <Form.Label
                                     htmlFor="inlineFormInputGroup"
                                     srOnly

@@ -26,13 +26,18 @@ app.listen(process.env.REACT_APP_SERVER_PORT, () => {
 });
 
 app.get("/dashboard", verifyJWT, (req, res, next) => {
-  pool.query(`select count(id) as num_usuarios from users`, (err, results) => {
-    if (err) {
-      return res.send(err);
-    } else {
-      return res.send(results);
+  pool.query(
+    `SELECT (select count(id) as num_usuarios from users) AS table_a,
+    (select count(id) as num_usuarios_hoje from users where DATE(dt_cadastro) = CURDATE())  AS table_b
+FROM DUAL`,
+    (err, results) => {
+      if (err) {
+        return res.send(err);
+      } else {
+        return res.send(results);
+      }
     }
-  });
+  );
 });
 
 app.get("/users", (req, res) => {

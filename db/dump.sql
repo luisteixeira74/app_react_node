@@ -32,7 +32,8 @@ CREATE TABLE `users` (
   `id` int(255) NOT NULL,
   `name` varchar(100) NOT NULL,
   `login` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL
+  `password` varchar(100) NOT NULL,
+  `dt_cadastro` DATETIME DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -40,7 +41,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `login`, `password`) VALUES
-(1, 'Admin', 'admin', 'ec417a8d3353edc3b8e518086e1fff33'); /* password = teste (using Crypto) */
+(1, 'Admin', 'admin', '$2b$10$ygsXQ.8KEgSLq990U6gc5ORA.yeP.0bEp27RHFiwJNzTTxsUBc/vW'); -- password 123456
 
 --
 -- Indexes for dumped tables

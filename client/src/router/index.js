@@ -74,7 +74,6 @@ const routes = [
         showMenu: false,
     },
 ]
-
 const router = () => (
     <div>
         <Navbar bg="light" expand="lg">
@@ -86,14 +85,7 @@ const router = () => (
                         return route.showMenu &&
                             ((!isAuthenticated() && !route.private) ||
                                 (isAuthenticated() && route.private)) ? (
-                            <Nav.Link
-                                as={Link}
-                                key={index}
-                                to={route.path}
-                                activeStyle={{
-                                    fontWeight: 'bold',
-                                }}
-                            >
+                            <Nav.Link as={Link} key={index} to={route.path}>
                                 {route.label}
                             </Nav.Link>
                         ) : null

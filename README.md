@@ -14,11 +14,13 @@ npm install
 
 ## Copiar as variaveis de ambiente do server
 
+no diretório server
+
 cp .env.example .env
 
 ## Subindo os containers
 
-entrar no diretorio raiz do projeto app_react_node
+entrar no diretorio raiz do projeto: app_react_node
 
 executar: docker-compose build
 
@@ -37,6 +39,10 @@ http://localhost:8080/index.php
 usuario: sampleuser
 
 senha: samplepassword
+
+banco: appdb
+
+tabela: users
 
 ## API
 
