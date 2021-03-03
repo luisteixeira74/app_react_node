@@ -109,6 +109,9 @@ const AddUser = (props) => {
                                 type="submit"
                                 onClick={handleSubmit}
                                 className="mb-2"
+                                disabled={
+                                    !user.login || !user.senha || !user.nome
+                                }
                             >
                                 Salvar
                             </Button>

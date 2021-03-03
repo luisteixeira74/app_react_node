@@ -12,6 +12,10 @@ cd server
 
 npm install
 
+## Copiar as variaveis de ambiente do server
+
+cp .env.example .env
+
 ## Subindo os containers
 
 entrar no diretorio raiz do projeto app_react_node

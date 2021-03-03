@@ -78,7 +78,7 @@ const routes = [
 const router = () => (
     <div>
         <Navbar bg="light" expand="lg">
-            <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+            <Navbar.Brand href="#home">App React-Node</Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
@@ -90,7 +90,9 @@ const router = () => (
                                 as={Link}
                                 key={index}
                                 to={route.path}
-                                activestyle={activeStyle}
+                                activeStyle={{
+                                    fontWeight: 'bold',
+                                }}
                             >
                                 {route.label}
                             </Nav.Link>
