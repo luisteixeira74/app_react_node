@@ -1,5 +1,7 @@
 # App React e Nodejs
 
+JWT, Crypt, MySQL, React-Router
+
 ## Instruções para configuração
 
 clonar o projeto
