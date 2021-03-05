@@ -79,7 +79,7 @@ app.post("/user", (req, res) => {
 });
 
 app.put("/user", verifyJWT, (req, res) => {
-  console.log("chegou!");
+  console.log("put user");
   if (!req.body) {
     res.status(400).send({
       message: "Content can not be empty!",
@@ -109,8 +109,6 @@ app.post("/login", (req, res) => {
 
   const { login, password } = req.body;
 
-  console.log("opa!" + login);
-
   pool.query(
     `select * from users where login = '${login}' limit 1`,
     (err, results) => {
@@ -119,9 +117,6 @@ app.post("/login", (req, res) => {
       } else {
         if (results.length) {
           const bcrypt = require("bcrypt");
-
-          console.log(password);
-          console.log(results[0].password);
 
           bcrypt.compare(password, results[0].password, function (err, result) {
             console.log("entrou ");
@@ -140,12 +135,12 @@ app.post("/login", (req, res) => {
             }
 
             console.log("not authorized!");
-            res.status(500).json({ message: "Login inválido!" });
+            res.status(404).json({ message: "Login inválido!" });
           });
         } else {
-          console.log("not found!!");
-          res.status(404).send({
-            message: `Not found User`,
+          console.log("Ocorreu um erro ao tentar se logar");
+          res.status(500).send({
+            message: `Erro ao fazer login`,
           });
         }
       }

@@ -91,27 +91,35 @@ const Dashboard = () => {
 
     return (
         <Card>
+            <Card.Header>Dashboard</Card.Header>
             <Card.Body>
-                <Card.Title className="mb-4">Dashboard</Card.Title>
-                <Row>
-                    <Col>
-                        {user && (
-                            <span>Total de usuários cadastrados: {user}</span>
-                        )}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <canvas id="myChart" width="200" height="200"></canvas>
-                    </Col>
-                    <Col>
-                        <canvas
-                            id="myChartByDate"
-                            width="200"
-                            height="200"
-                        ></canvas>
-                    </Col>
-                </Row>
+                <Card.Text>
+                    <Row>
+                        <Col>
+                            {user && (
+                                <span>
+                                    Total de usuários cadastrados: {user}
+                                </span>
+                            )}
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <canvas
+                                id="myChart"
+                                width="200"
+                                height="200"
+                            ></canvas>
+                        </Col>
+                        <Col>
+                            <canvas
+                                id="myChartByDate"
+                                width="200"
+                                height="200"
+                            ></canvas>
+                        </Col>
+                    </Row>
+                </Card.Text>
             </Card.Body>
         </Card>
     )

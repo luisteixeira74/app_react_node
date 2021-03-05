@@ -11,12 +11,6 @@ class ListUsers extends React.Component {
         editing: false,
         currentUser: { id: null, name: '', username: '' },
     }
-    // Data
-    // const usersData = [
-    //     { id: 1, name: 'Tania', username: 'floppydiskette' },
-    //     { id: 2, name: 'Craig', username: 'siliconeidolon' },
-    //     { id: 3, name: 'Ben', username: 'benisphere' },
-    // ]
 
     componentDidMount() {
         this.getUsers()
@@ -50,7 +44,6 @@ class ListUsers extends React.Component {
     render() {
         return (
             <div className="container">
-                <h1>Lista de usuários</h1>
                 <div className="flex-row">
                     <div className="flex-large">
                         {this.state.users.map((user, index) => (
@@ -59,6 +52,7 @@ class ListUsers extends React.Component {
                                 user={user}
                                 editUser={''}
                                 currentUser={user}
+                                editRow={this.editRow}
                             />
                         ))}
                     </div>

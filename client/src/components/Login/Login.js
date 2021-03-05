@@ -51,11 +51,9 @@ const Login = (props) => {
 
     return (
         <Card>
+            <Card.Header>Login</Card.Header>
             <Card.Body>
-                <Card.Title className="mb-4">
-                    <h2>Login</h2>
-                </Card.Title>
-                <Card.Text md={10}>
+                <Card.Text>
                     <Form onSubmit={handleSubmit}>
                         <Form.Row className="justify-content-center">
                             <Col md={3}>
@@ -73,6 +71,7 @@ const Login = (props) => {
                                         id="login"
                                         placeholder="Login"
                                         name="login"
+                                        className="text-lowercase"
                                     />
                                 </InputGroup>
                             </Col>
